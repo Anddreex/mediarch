@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora De Gestion Documental</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="background-pattern"></div>
+  
+  <div class="main-container">
+    <!-- Panel izquierdo: Calculadora -->
+    <div class="calculator-panel">
+      <div class="header">
+        <div class="icon-container">
+          <i class="fas fa-calculator"></i>
+        </div>
+        <h1>MEDIARCH GD</h1>
+        <p class="subtitle">Conversión completa de volúmen documental</p>
+      </div>
+      
+      <div class="form-section">
+    <div class="input-group">
+        <label for="formaGeometrica"><i class="fas fa-cube"></i> Forma geométrica:</label>
+        <select id="formaGeometrica" onchange="alternarCampos()">
+            <option value="Paralelepipedo">📦 Paralelepípedo (Recto)</option>
+            <option value="Cubo">🧊 Cubo</option>
+            <option value="Cono Recto Truncado">📐 Cono recto truncado</option>
+            <option value="Cono Rectangular Truncado">📐 Cono rectangular truncado</option>
+        </select>
+    </div>
+
+    <div id="rectangularFields">
+        <div class="input-group">
+            <label><i class="fas fa-arrows-alt-h"></i> Largo (metros):</label>
+            <input type="number" id="largo" step="0.01" placeholder="Ej: 1.20">
+        </div>
+
+        <div class="input-group">
+            <label><i class="fas fa-arrows-alt-v"></i> Ancho (metros):</label>
+            <input type="number" id="ancho" step="0.01" placeholder="Ej: 0.20">
+        </div>
+
+        <div class="input-group">
+            <label><i class="fas fa-arrows-alt"></i> Alto (metros):</label>
+            <input type="number" id="alto" step="0.01" placeholder="Ej: 0.80">
+        </div>
+    </div>
+    
+    <div id="truncatedFields" style="display: none;">
+        <div class="input-group">
+            <label><i class="fas fa-arrows-v"></i> Altura (h) (metros):</label>
+            <input type="number" id="altura" step="0.01" placeholder="Ej: 1.50">
+        </div>
+
+        <div class="input-group">
+            <label><i class="fas fa-dot-circle"></i> Radio Mayor (metros)</label>
+            <input type="number" id="radioMayor" step="0.01" placeholder="Ej: 0.60">
+        </div>
+
+        <div class="input-group">
+            <label><i class="fas fa-circle-notch"></i> Radio Menor (metros):</label>
+            <input type="number" id="radioMenor" step="0.01" placeholder="Ej: 0.40">
+        </div>
+    </div>
+    
+    <div class="input-group">
+        <label><i class="fas fa-archive"></i> Unidad de conservación:</label>
+        <select id="unidad">
+            <option value="legajo">📁 Legajo</option>
+            <option value="carpeta">📂 Carpeta</option>
+            <option value="Caja">📦 Caja de archivo</option>
+            <option value="otros">📋 Otros</option>
+        </select>
+    </div>
+
+    <div class="input-group">
+        <label><i class="fas fa-ruler"></i> Metros lineales:</label>
+        <input type="number" id="ml" step="0.01" placeholder="Ej: 2">
+    </div>
+
+    <div class="divider">
+        <span>Información adicional</span>
+    </div>
+
+    <div class="input-group">
+        <label><i class="fas fa-database"></i> Volumen de información:</label>
+        <input type="number" id="volumenInfo" step="1" placeholder="Ej: 700000">
+    </div>
+
+    <div class="input-group">
+        <label><i class="fas fa-chart-bar"></i> Unidad de volumen:</label>
+        <select id="tipoVolumen">
+            <option value="folios">📄 Folios</option>
+            <option value="carpetas">📁 Carpetas</option>
+        </select>
+    </div>
+
+    <div class="input-group">
+        <label><i class="fas fa-chart-bar"></i> Proceso </label>
+        <select id="tipoProceso">
+            <option value="Gestion Financiera"> Gestion Financiera</option>
+            <option value="Gestion Bascula"> Gestion Bascula</option>
+        </select>
+    </div>
+
+    <div class="input-group">
+        <label for="personas"><i class="fas fa-users"></i> Número de personas:</label>
+        <select id="personas">
+            <option value="1">👨‍💻1 persona</option>
+            <option value="2">👨‍💻2 personas</option>
+            <option value="3">👨‍💻3 personas</option>
+            <option value="4">👨‍💻4 personas</option>
+            <option value="5">👨‍💻5 personas</option>
+            <option value="6">👨‍💻6 personas</option>
+            <option value="7">👨‍💻7 personas</option>
+        </select>
+    </div>
+</div>
+      <div class="botones">
+        <button type="button" onclick="calcular()" class="btn-primary">
+          <i class="fas fa-play"></i>
+          Calcular
+        </button>
+        <button type="button" onclick="exportarExcel()" class="btn-secondary">
+          <i class="fas fa-file-excel"></i>
+          Exportar Excel
+        </button>
+        <button type="button" onclick="limpiar()" class="btn-danger">
+          <i class="fas fa-trash"></i>
+          Limpiar
+        </button>
+      </div>
+    </div>
+
+    <!-- Panel derecho: Resultados -->
+    <div class="results-panel" id="resultsPanel">
+      <div class="results-header">
+        <div class="results-title">
+          <i class="fas fa-chart-line"></i>
+          <h3>Resultados</h3>
+        </div>
+        <button class="close-results" onclick="toggleResults()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="results-content">
+        <div id="resultado">
+          <div class="empty-state">
+            <i class="fas fa-calculator"></i>
+            <p>Los resultados aparecerán aquí después del cálculo</p>
+          </div>
+        </div>
+      </div>
+    </div>   
+
+ 
+
+  <!-- Cargar librería Excel -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <!-- Conectar con el JS -->
+  <script src="script.js"></script>
+
+</body>
+</html>
